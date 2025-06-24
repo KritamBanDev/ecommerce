@@ -6,8 +6,7 @@ import NoProductAvailable from "@/components/new/NoProductsAvailable";
 import Container from "@/components/Container";
 import { Product } from "@/sanity.types";
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function CategoryPage({ slug }: { slug: string }) {
   // Fetch products for this category
   const products = await client.fetch(
     `*[_type == 'product' && references(*[_type == "category" && slug.current == $slug]._id)] | order(name asc)`,
