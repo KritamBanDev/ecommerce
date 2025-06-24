@@ -4,7 +4,6 @@ import {
   FileText,
   CheckCircle2,
   Globe,
-  Lock,
   Gavel,
   ShieldCheck,
 } from "lucide-react";
