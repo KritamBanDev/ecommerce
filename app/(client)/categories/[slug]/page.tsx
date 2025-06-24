@@ -6,11 +6,7 @@ import NoProductAvailable from "@/components/new/NoProductsAvailable";
 import Container from "@/components/Container";
 import { Product } from "@/sanity.types";
 
-interface CategoryPageProps {
-  params: { slug: string };
-}
-
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   // Fetch products for this category
   const products = await client.fetch(
@@ -40,4 +36,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       )}
     </Container>
   );
+}
+
+// Add generateStaticParams for Next.js 15+ compatibility
+export async function generateStaticParams() {
+  const categories = await client.fetch(`*[_type == "category"]{ "slug": slug.current }`);
+  return categories.map((cat: { slug: string }) => ({ slug: cat.slug }));
 }
