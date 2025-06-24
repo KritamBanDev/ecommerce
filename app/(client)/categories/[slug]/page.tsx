@@ -4,6 +4,7 @@ import { client } from "@/sanity/lib/client";
 import ProductCard from "@/components/ProductCard";
 import NoProductAvailable from "@/components/new/NoProductsAvailable";
 import Container from "@/components/Container";
+import { Product } from "@/sanity.types";
 
 export default async function CategoryPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -26,7 +27,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
       <h1 className="text-3xl font-bold mb-6 text-center">{category.title}</h1>
       {products?.length ? (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mt-10">
-          {products.map((product: any) => (
+          {products.map((product: Product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>

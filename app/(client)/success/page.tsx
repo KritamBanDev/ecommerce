@@ -44,13 +44,11 @@ const SuccessPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!userId) {
-        console.log("User ID not found. Cannot fetch orders.");
         return;
       }
       try {
         const ordersData = await client.fetch(query, { userId });
         setOrders(ordersData);
-        console.log("Fetched orders:", ordersData);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }

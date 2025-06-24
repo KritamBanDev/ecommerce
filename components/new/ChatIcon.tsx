@@ -17,7 +17,7 @@ const ChatIcon = () => {
       document.body.appendChild(div);
     }
     // Assign chatbotConfig to window
-    (window as any).chatbotConfig = [
+    (window as typeof window & { chatbotConfig?: unknown[] }).chatbotConfig = [
       "BAB7C759-C70C-45ED-9987-414B76B81F37",
       "dTtiij56YxTvc-eKxEMnJ",
       {

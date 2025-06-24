@@ -16,28 +16,28 @@ const ProductGrid = () => {
   const [error, setError] = useState<string | null>(null);
   const [timeoutReached, setTimeoutReached] = useState(false);
 
-  // Find the correct variant value for the selected tab
-  const selectedType = productType.find((type) => type.title === selectedTab);
-  const variantValue = selectedType ? selectedType.value : selectedTab.toLowerCase();
-  const query = `*[_type == "product" && variant == $variant] | order(name asc)`;
-  const params = { variant: variantValue };
-
   useEffect(() => {
     setError(null);
     setTimeoutReached(false);
     const timer = setTimeout(() => setTimeoutReached(true), 8000); // 8s timeout
+    const selectedType = productType.find((type) => type.title === selectedTab);
+    const variantValue = selectedType ? selectedType.value : selectedTab.toLowerCase();
+    const query = `*[_type == "product" && variant == $variant] | order(name asc)`;
+    const params = { variant: variantValue };
     const fetchData = async () => {
       setLoading(true);
       try {
         const response = await client.fetch(query, params);
-        console.log('Sanity response:', response);
         setProducts(response);
         if (!response || response.length === 0) {
           setError('No products found for this category.');
         }
-      } catch (error: any) {
-        console.log("Product fetching Error", error);
-        setError(error.message || 'Failed to fetch products.');
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('Failed to fetch products.');
+        }
       } finally {
         setLoading(false);
         clearTimeout(timer);
@@ -45,7 +45,7 @@ const ProductGrid = () => {
     };
     fetchData();
     return () => clearTimeout(timer);
-  }, [variantValue]);
+  }, [selectedTab]);
 
   return (
     <div className="mt-10 flex flex-col items-center">

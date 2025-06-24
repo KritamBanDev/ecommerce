@@ -162,7 +162,7 @@ const Footer = () => {
         <div className="py-6 border-t-0 text-center text-base text-gray-500 dark:text-gray-400 font-medium tracking-wide">
           <p>
             © {new Date().getFullYear()}{" "}
-            <span className="font-bold text-gray-900 dark:text-white">E-commerce</span>. All rights reserved.
+            <span className="font-bold text-gray-900 dark:text-white">E-commerce</span>. All rights reserved. Crafted with ❤ by Kritam Ban
           </p>
         </div>
       </div>

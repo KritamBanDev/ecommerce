@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-commerce Web Application
 
-## Getting Started
+A modern, full-stack E-commerce platform built with Next.js, Sanity CMS, Stripe, Clerk authentication, and Zustand state management.
 
-First, run the development server:
+## 🚀 Features
+- Product catalog, categories, and search
+- Shopping cart with persistent state
+- Secure checkout with Stripe payments
+- Order management and user order history
+- Admin studio (Sanity)
+- Authentication with Clerk
+- Responsive, modern UI (Tailwind CSS, Radix UI)
+- Email notifications (Nodemailer)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🛠️ Tech Stack
+- **Frontend:** Next.js 15, React 18, Tailwind CSS, Radix UI, Zustand
+- **Backend:** Next.js API routes, Sanity CMS
+- **Payments:** Stripe
+- **Auth:** Clerk
+- **Email:** Nodemailer
+- **Other:** TypeScript, ESLint, Framer Motion, Embla Carousel
+
+## 📁 Project Structure
+```
+app/                # Next.js app directory (pages, layouts, API, actions)
+components/         # Reusable UI and business components
+constants/          # Static data and config
+hooks/              # Custom React hooks
+lib/                # Utility libraries (Stripe, Sanity, etc.)
+public/             # Static assets
+sanity/             # Sanity CMS config and helpers
+store/              # Zustand state stores
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚙️ Setup & Installation
+1. **Clone the repo:**
+   ```bash
+   git clone <your-repo-url>
+   cd ecommerce
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   # or yarn install
+   ```
+3. **Configure environment variables:**
+   - Copy `.env.example` to `.env.local` and fill in all required values:
+     - `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, `NEXT_PUBLIC_SANITY_API_VERSION`
+     - `SANITY_API_TOKEN`, `SANITY_API_READ_TOKEN`
+     - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`
+     - `NEXT_PUBLIC_BASE_URL`, `VERCEL_URL` (for deployment)
+     - `CLERK_*` (Clerk auth keys)
+     - `CONTACT_EMAIL_USER`, `CONTACT_EMAIL_PASS` (for Nodemailer)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Run development server:**
+   ```bash
+   npm run dev
+   ```
+   Visit [http://localhost:3000](http://localhost:3000)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5. **Sanity Studio (Admin):**
+   ```bash
+   npx sanity start
+   # or npm run typegen (for schema/type updates)
+   ```
 
-## Learn More
+## 🏗️ Build & Production
+- **Build:**
+  ```bash
+  npm run build
+  ```
+- **Start:**
+  ```bash
+  npm start
+  ```
 
-To learn more about Next.js, take a look at the following resources:
+## 🌐 Deployment
+- Recommended: [Vercel](https://vercel.com/)
+- Set all environment variables in your Vercel/production dashboard
+- Sanity Studio can be deployed separately (see Sanity docs)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔌 Integrations
+- **Stripe:** Payment processing
+- **Sanity:** Headless CMS for products, categories, orders
+- **Clerk:** Authentication and user management
+- **Nodemailer:** Email notifications
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛡️ Security & Best Practices
+- All secrets and API keys are loaded from environment variables
+- `.gitignore` ensures no sensitive files are committed
+- Linting and formatting enforced via ESLint
+- Remove all debug logs before production
 
-## Deploy on Vercel
+## 📄 License
+MIT
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> Built with ❤️ by your team. For questions, open an issue or PR.

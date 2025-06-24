@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
       customerEmail: metadata.customerEmail,
       clerkUserId: metadata.clerkUserId,
       status: "cod",
-      products: items.map((item: any) => ({
+      products: items.map((item: { product: { _id: string }; quantity: number }) => ({
         product: { _ref: item.product._id, _type: "reference" },
         quantity: item.quantity,
       })),

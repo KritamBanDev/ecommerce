@@ -30,9 +30,12 @@ const CategoryProducts = ({ categories, slug }: Props) => {
       `;
       const data = await client.fetch(query, { categorySlug });
       setProducts(data);
-    } catch (error: any) {
-      console.error("Error fetching products:", error);
-      setError(error?.message || 'Unknown error');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Unknown error');
+      }
       setProducts([]);
     } finally {
       setLoading(false);

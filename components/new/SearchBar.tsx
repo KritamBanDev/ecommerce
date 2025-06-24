@@ -16,12 +16,27 @@ import { Product } from "@/sanity.types";
 import PriceView from "../PriceView";
 import Image from "next/image";
 
-// Add type definitions for SpeechRecognition and SpeechRecognitionEvent if not present
-// These are not included in the default TypeScript DOM lib
-// @ts-ignore
-type SpeechRecognition = any;
-// @ts-ignore
-type SpeechRecognitionEvent = any;
+declare global {
+  interface Window {
+    webkitSpeechRecognition: {
+      new (): SpeechRecognitionInstance;
+    };
+  }
+}
+
+interface SpeechRecognitionInstance {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onend: (() => void) | null;
+  start?: () => void;
+  stop?: () => void;
+}
+
+interface SpeechRecognitionEvent {
+  results: SpeechRecognitionResultList;
+}
 
 const RECENT_SEARCHES_KEY = "recent_searches";
 
@@ -35,7 +50,7 @@ const SearchBar = () => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [voiceActive, setVoiceActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
 
   // Fetch trending products (top 5 by sales)
   useEffect(() => {
@@ -75,7 +90,7 @@ const SearchBar = () => {
       const params = { search: `${search}*` };
       const response: Product[] = await client.fetch(query, params);
       setProducts(response);
-    } catch (error) {
+    } catch {
       setProducts([]);
     } finally {
       setLoading(false);
@@ -119,15 +134,15 @@ const SearchBar = () => {
 
   // Voice search setup
   useEffect(() => {
-    // Use any for win and SpeechRecognition to avoid circular type reference
-    const win = window as any;
+    // Use a type-safe cast for window
+    const win = window as Window;
     if (!win.webkitSpeechRecognition) return;
     const SpeechRecognition = win.webkitSpeechRecognition;
     recognitionRef.current = new SpeechRecognition();
     recognitionRef.current.continuous = false;
     recognitionRef.current.interimResults = false;
     recognitionRef.current.lang = 'en-US';
-    recognitionRef.current.onresult = (event: any) => {
+    recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript;
       setSearch(transcript);
       setVoiceActive(false);
@@ -137,7 +152,7 @@ const SearchBar = () => {
 
   const startVoiceSearch = () => {
     setVoiceActive(true);
-    recognitionRef.current?.start();
+    recognitionRef.current?.start?.();
   };
 
   // Highlight matched text
@@ -232,8 +247,8 @@ const SearchBar = () => {
                     window.location.href = `/product/${product.slug?.current ?? ""}`;
                   }}
                   tabIndex={0}
-                  aria-selected={activeIndex === idx}
                   role="option"
+                  aria-selected={activeIndex === idx}
                   aria-label={product.name}
                 >
                   <div className="h-14 w-14 flex-shrink-0 border border-darkColor/20 rounded-md overflow-hidden group bg-gray-100">
@@ -306,6 +321,7 @@ const SearchBar = () => {
                     tabIndex={0}
                     role="option"
                     aria-label={product.name}
+                    aria-selected={false}
                   >
                     <div className="h-10 w-10 border border-darkColor/20 rounded-md overflow-hidden bg-white">
                       {product.images && (

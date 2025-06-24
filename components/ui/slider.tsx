@@ -50,7 +50,7 @@ const Slider = React.forwardRef<HTMLSpanElement, SliderProps>(
           "relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col",
           className
         )}
-        ref={ref as any}
+        ref={ref as React.Ref<HTMLDivElement>}
         {...props}
       >
         <SliderPrimitive.Track

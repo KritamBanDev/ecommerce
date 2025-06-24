@@ -8,7 +8,6 @@ export const getAllProducts = async () => {
     });
     return products || [];
   } catch (error) {
-    console.log("Error fetching all products:", error);
     return [];
   }
 };

@@ -19,14 +19,13 @@ const DealsSection = () => {
       try {
         const response = await client.fetch(query);
         setProducts(response);
-      } catch (error) {
-        console.log("Product fetching Error", error);
+      } catch {
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [query]);
 
   return (
     <Container className="py-10">

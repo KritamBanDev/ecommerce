@@ -35,7 +35,6 @@ export default function Chat({ pageId, appId }: FacebookMessengerProps) {
         xfbml: true,
         version: "v17.0",
       });
-      console.log("Facebook SDK initialized successfully");
       setIsSDKLoaded(true);
     };
 
@@ -45,7 +44,6 @@ export default function Chat({ pageId, appId }: FacebookMessengerProps) {
       js.id = "facebook-jssdk";
       js.src = `https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0&appId=${appId}`;
       js.async = true;
-      js.onload = () => console.log("Facebook SDK loaded successfully");
       js.onerror = (error) => {
         console.error("Failed to load Facebook SDK:", error);
         setError(
