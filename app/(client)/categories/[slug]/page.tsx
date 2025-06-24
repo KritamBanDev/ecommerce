@@ -38,8 +38,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
   );
 }
 
-// Add generateStaticParams for Next.js 15+ compatibility
 export async function generateStaticParams() {
   const categories = await client.fetch(`*[_type == "category"]{ "slug": slug.current }`);
-  return categories.map((cat: { slug: string }) => ({ params: { slug: cat.slug } }));
+  return categories.map((cat: { slug: string }) => ({ slug: cat.slug }));
 }
