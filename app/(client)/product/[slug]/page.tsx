@@ -12,8 +12,7 @@ import { FiShare2 } from "react-icons/fi";
 import { RxBorderSplit } from "react-icons/rx";
 import { TbTruckDelivery } from "react-icons/tb";
 
-const ProductPage = async ({ params }: { params: { slug: string } }) => {
-  const { slug } = params;
+export default async function ProductPage({ slug }: { slug: string }) {
   const product = await getProductBySlug(slug);
 
   if (!product) {
@@ -92,11 +91,9 @@ const ProductPage = async ({ params }: { params: { slug: string } }) => {
       </Container>
     </div>
   );
-};
+}
 
 export async function generateStaticParams() {
   const products = await getProductSlugs();
-  return products.map((slug: string) => ({ params: { slug } }));
+  return products.map((slug: string) => ({ slug }));
 }
-
-export default ProductPage;
