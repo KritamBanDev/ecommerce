@@ -3,7 +3,7 @@ import Container from "@/components/Container";
 import ImageView from "@/components/new/ImageView";
 import PriceView from "@/components/PriceView";
 import ProductCharacteristics from "@/components/ProductCharacteristics";
-import { getProductBySlug } from "@/sanity/helpers";
+import { getProductBySlug, getProductSlugs } from "@/sanity/helpers";
 import { Heart } from "lucide-react";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -93,5 +93,10 @@ const ProductPage = async ({ params }: { params: { slug: string } }) => {
     </div>
   );
 };
+
+export async function generateStaticParams() {
+  const products = await getProductSlugs();
+  return products.map((slug: string) => ({ params: { slug } }));
+}
 
 export default ProductPage;
