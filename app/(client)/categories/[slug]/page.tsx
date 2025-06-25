@@ -6,7 +6,8 @@ import NoProductAvailable from "@/components/new/NoProductsAvailable";
 import Container from "@/components/Container";
 import { Product } from "@/sanity.types";
 
-export default async function CategoryPage({ slug }: { slug: string }) {
+export default async function CategoryPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   // Fetch products for this category
   const products = await client.fetch(
     `*[_type == 'product' && references(*[_type == "category" && slug.current == $slug]._id)] | order(name asc)`,
@@ -37,7 +38,8 @@ export default async function CategoryPage({ slug }: { slug: string }) {
   );
 }
 
-export async function generateStaticParams() {
-  const categories = await client.fetch(`*[_type == "category"]{ "slug": slug.current }`);
-  return categories.map((cat: { slug: string }) => ({ slug: cat.slug }));
-}
+// generateStaticParams is still commented out for now
+// export async function generateStaticParams() {
+//   const categories = await client.fetch(`*[_type == "category"]{ "slug": slug.current }`);
+//   return categories.map((cat: { slug: string }) => ({ slug: cat.slug }));
+// }
