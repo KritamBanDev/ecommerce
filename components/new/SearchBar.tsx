@@ -177,10 +177,10 @@ const SearchBar = () => {
     <Dialog open={showSearch} onOpenChange={() => setShowSearch(!showSearch)}>
       <DialogTrigger
         onClick={() => setShowSearch(!showSearch)}
-        className="flex items-center hover:cursor-pointer"
+        className="group relative flex items-center justify-center w-10 h-10 p-1 rounded-full bg-white shadow hover:shadow-fuchsia-200/60 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 transition-all duration-200"
         aria-label="Open search"
       >
-        <Search className="w-5 h-5 hover:text-darkColor hoverEffect" />
+        <Search className="w-6 h-6 group-hover:text-fuchsia-600 hoverEffect transition-colors duration-200 align-middle" />
       </DialogTrigger>
       <DialogContent className="max-w-3xl min-h-[60vh] max-h-[90vh] flex flex-col overflow-hidden bg-white p-0">
         <DialogHeader className="p-6 pb-2">

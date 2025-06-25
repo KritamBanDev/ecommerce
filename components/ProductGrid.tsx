@@ -9,7 +9,11 @@ import { Loader2 } from "lucide-react";
 import HomeTabbar from "./new/HomeTabbar";
 import NoProductAvailable from "./new/NoProductsAvailable";
 
-const ProductGrid = () => {
+interface ProductGridProps {
+  categorySlug?: string;
+}
+
+const ProductGrid = ({ categorySlug }: ProductGridProps) => {
   const [products, setProducts] = useState<PRODUCTS_QUERYResult>([]);
   const [loading, setLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState(productType[0]?.title || "");
@@ -20,10 +24,18 @@ const ProductGrid = () => {
     setError(null);
     setTimeoutReached(false);
     const timer = setTimeout(() => setTimeoutReached(true), 8000); // 8s timeout
-    const selectedType = productType.find((type) => type.title === selectedTab);
-    const variantValue = selectedType ? selectedType.value : selectedTab.toLowerCase();
-    const query = `*[_type == "product" && variant == $variant] | order(name asc)`;
-    const params = { variant: variantValue };
+    let query = `*[_type == \"product\"] | order(name asc)`;
+    let params: Record<string, unknown> = {};
+    if (categorySlug) {
+      query = `*[_type == 'product' && references(*[_type == \"category\" && slug.current == $categorySlug]._id)] | order(name asc)`;
+      params = { categorySlug };
+    } else {
+      const selectedType = productType.find((type) => type.title === selectedTab);
+      if (selectedType) {
+        query = `*[_type == \"product\" && variant == $variant] | order(name asc)`;
+        params = { variant: selectedType.value };
+      }
+    }
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -45,11 +57,13 @@ const ProductGrid = () => {
     };
     fetchData();
     return () => clearTimeout(timer);
-  }, [selectedTab]);
+  }, [selectedTab, categorySlug]);
 
   return (
     <div className="mt-10 flex flex-col items-center">
-      <HomeTabbar selectedTab={selectedTab} onTabSelect={setSelectedTab} />
+      {!categorySlug && (
+        <HomeTabbar selectedTab={selectedTab} onTabSelect={setSelectedTab} />
+      )}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-10 min-h-80 space-y-4 text-center bg-gray-100 rounded-lg w-full mt-10">
           <motion.div className="flex items-center space-x-2 text-blue-600">

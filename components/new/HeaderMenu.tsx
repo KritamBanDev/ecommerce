@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Category } from "@/sanity.types";
 import { useCategoryStore } from "@/store/categoryStore";
+import { navLinks } from "./navLinks";
 
 interface HeaderMenuProps {
   categories: Category[];
@@ -46,6 +47,31 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({ categories }) => {
               <span
                 className={`absolute left-1/2 -bottom-1 w-0 h-1 rounded bg-gradient-to-r from-blue-500 via-fuchsia-500 to-pink-500 transition-all duration-300 group-hover:w-3/4 group-hover:left-1/8 ${
                   pathname === "/" || (!selectedCategory && pathname === "/") ? "w-3/4 left-1/8" : ""
+                }`}
+              />
+            </li>
+          );
+        }
+        // Add static navLinks for Featured, Accessories, Men, Women
+        const staticLink = navLinks.find((l) => l.title === item.title);
+        if (staticLink) {
+          const isActive = pathname === staticLink.href;
+          return (
+            <li key={staticLink.title} className="relative group mx-0.5">
+              <Link
+                href={staticLink.href}
+                className={`px-2 py-1 rounded-lg font-medium text-sm whitespace-nowrap transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-400 ${
+                  isActive
+                    ? "bg-gradient-to-r from-blue-100 via-fuchsia-100 to-pink-100 text-black shadow font-extrabold"
+                    : "text-gray-500 hover:bg-fuchsia-50 hover:text-fuchsia-700 hover:font-bold"
+                }`}
+                tabIndex={0}
+              >
+                {staticLink.title}
+              </Link>
+              <span
+                className={`absolute left-1/2 -bottom-1 w-0 h-1 rounded bg-gradient-to-r from-blue-500 via-fuchsia-500 to-pink-500 transition-all duration-300 group-hover:w-3/4 group-hover:left-1/8 ${
+                  isActive ? "w-3/4 left-1/8" : ""
                 }`}
               />
             </li>

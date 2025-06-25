@@ -7,11 +7,9 @@
  * https://github.com/sanity-io/next-sanity
  */
 
-// import { NextStudio } from 'next-sanity/studio'
-// import config from '../../../sanity.config'
-// export { metadata, viewport } from 'next-sanity/studio'
+import { NextStudio } from 'next-sanity/studio';
+import config from '../../../sanity.config';
 
-// This file is temporarily disabled due to build errors with Sanity Studio in Next.js 15
 export default function StudioPage() {
-  return null;
+  return <NextStudio config={config} />;
 }
