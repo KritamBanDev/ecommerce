@@ -12,7 +12,8 @@ import { FiShare2 } from "react-icons/fi";
 import { RxBorderSplit } from "react-icons/rx";
 import { TbTruckDelivery } from "react-icons/tb";
 
-export default async function ProductPage({ slug }: { slug: string }) {
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const product = await getProductBySlug(slug);
 
   if (!product) {

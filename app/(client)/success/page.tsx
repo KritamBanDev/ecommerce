@@ -3,7 +3,7 @@
 import useCartStore from "@/store";
 import { Check, Home, Package, ShoppingBag, Mail, Truck, Share2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { MY_ORDERS_QUERYResult } from "@/sanity.types";
@@ -353,4 +353,10 @@ const SuccessPage = () => {
   );
 };
 
-export default SuccessPage;
+const SuccessPageWithSuspense = () => (
+  <Suspense>
+    <SuccessPage />
+  </Suspense>
+);
+
+export default SuccessPageWithSuspense;

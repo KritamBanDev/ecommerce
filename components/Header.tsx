@@ -4,6 +4,7 @@ import RightBar from "./RightBar";
 import Container from "./Container";
 import { getAllCategories } from "@/sanity/helpers/index";
 import HeaderMenu from "./new/HeaderMenu";
+import MobileMenu from "./new/MobileMenu";
 
 const Header = async () => {
   // Fetch categories on the server
@@ -15,6 +16,10 @@ const Header = async () => {
         <nav className="hidden md:flex items-center gap-3 h-full flex-1 justify-start min-w-0">
           <HeaderMenu categories={categories} />
         </nav>
+        {/* Left: Mobile Menu */}
+        <div className="flex md:hidden flex-1 justify-start">
+          <MobileMenu />
+        </div>
         {/* Center: Logo - perfectly centered with flex grow/shrink and absolute fallback */}
         <div className="flex-1 flex items-center justify-center min-w-0 relative">
           {/* Desktop Logo */}
